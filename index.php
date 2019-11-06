@@ -39,6 +39,30 @@ $arr_popular = [
   'avatar' => 'userpic.jpg'
 ]
 ];
+
+function cut_text($s_input, $max = 300)
+{
+  $count = strlen($s_input); //Получаем длину строки
+  $textcount = 0;
+  if($count > $max){
+    $cyclecount = 0;
+    $ar_input = explode(" ", $s_input); //Дробим полученную строку по словам
+    foreach ($ar_input as $value) {
+      $wordcount = strlen($value); //Получаем длину слова
+      $textcount += $wordcount; //Получаем длину предложения
+      $cyclecount++;
+      if ($textcount > $max){
+        break;
+      }
+    }
+    $ar_output = array_slice($ar_input, 0, $cyclecount);
+    $s_output = implode(" ", $ar_output) . '...' . '<br><a class="post-text__more-link" href="#">Читать далее</a>';
+  }
+  else{
+    $s_output = $s_input;
+  }
+  return $s_output;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -254,9 +278,10 @@ $arr_popular = [
                         <cite>Неизвестный Автор</cite>
                       </blockquote>
                   <?php elseif ($value['type'] == 'post_text'):?>
-                      <p>
-                        <?=$value['content'];?>
-                      </p>
+                    <p>
+                      <?=cut_text($value['content'])?>
+                    </p>
+
                   <?php elseif ($value['type'] == 'post_link'):?>
                     <div class="post-link__wrapper">
                         <a class="post-link__external" href="<?=$value['content']?>" title="Перейти по ссылке">
@@ -265,7 +290,7 @@ $arr_popular = [
                     </div>
                   <?php else:?>
                     <div class="post-photo__image-wrapper">
-                        <img src="<?=$value['content']?>" alt="Фото от пользователя" width="360" height="240">
+                        <img src="/img/<?=$value['content']?>" alt="Фото от пользователя" width="360" height="240">
                     </div>
                   <?php endif;?>
                 </div>
@@ -274,7 +299,7 @@ $arr_popular = [
                         <a class="post__author-link" href="#" title="Автор">
                             <div class="post__avatar-wrapper">
                                 <!--укажите путь к файлу аватара-->
-                                <img class="post__author-avatar" src="<?=$value['avatar'];?>" alt="Аватар пользователя">
+                                <img class="post__author-avatar" src="/img/<?=$value['avatar'];?>" alt="Аватар пользователя">
                             </div>
                             <div class="post__info">
                                 <b class="post__author-name"><?=$value['name'];?><!--здесь имя пользоателя--></b>
