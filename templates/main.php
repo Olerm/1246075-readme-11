@@ -87,6 +87,12 @@
 
         <?php foreach ($value as $key => $value): ?>
 
+        <?php
+        $date = rand_date();
+        $post_date = preobraz($date);
+        $title_date = date('d.m.Y H:i', $date);
+        ?>
+
         <article class="popular__post post <?=$value['type'];?>">
             <header class="post__header">
                 <h2><?=$value['title'];?></h2>
@@ -118,14 +124,13 @@
             </div>
             <footer class="post__footer">
                 <div class="post__author">
-                    <a class="post__author-link" href="#" title="Автор">
+                    <a class="post__author-link" href="#" title="<?=$title_date;?>">
                         <div class="post__avatar-wrapper">
-                            <!--укажите путь к файлу аватара-->
                             <img class="post__author-avatar" src="/img/<?=$value['avatar'];?>" alt="Аватар пользователя">
                         </div>
                         <div class="post__info">
-                            <b class="post__author-name"><?=$value['name'];?><!--здесь имя пользоателя--></b>
-                            <time class="post__time" datetime="">дата</time>
+                            <b class="post__author-name"><?=$value['name'];?></b>
+                            <time class="post__time" datetime="<?=$date;?>"><?=$post_date;?></time>
                         </div>
                     </a>
                 </div>
